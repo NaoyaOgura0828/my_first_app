@@ -7,6 +7,10 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  String _textHeader = 'あなたの名前を教えて下さい。';
+  TextEditingController _textEditingController = TextEditingController();
+  Widget _imageWidget = Container();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,21 +23,41 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           children: <Widget>[
             Center(
-              child: Text('あなたの名前を教えて下さい。', style: TextStyle(fontSize: 10.0),),
+              child: Text(
+                _textHeader,
+                style: TextStyle(fontSize: 10.0),
+              ),
             ),
             TextField(
               keyboardType: TextInputType.text,
               style: TextStyle(fontSize: 20.0),
-              controller: null, //TODO 入力した文字を管理するTextEditionContorollerの設定
+              controller:
+                  _textEditingController, // 入力した文字を管理するTextEditionContorollerの設定
             ),
-            Image.asset('assets/images/hello.png'),
-            ElevatedButton(
-                onPressed: null, //TODO ボタンのクリック処理
-                child: Text('おしてね', style: TextStyle(fontSize: 18.0),),
+            Expanded(child: _imageWidget),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () => _onClick(), // ボタンのクリック処理
+                child: Text(
+                  'おしてね',
+                  style: TextStyle(fontSize: 18.0),
+                ),
+              ),
             )
           ],
         ),
       ),
     );
+  }
+
+  _onClick() {
+    setState(() {
+      // 文字
+      var inputText = _textEditingController.text;
+      _textHeader = 'こんにちは！$inputTextさん';
+      // 画像
+      _imageWidget = Image.asset('assets/images/hello.png');
+    });
   }
 }
